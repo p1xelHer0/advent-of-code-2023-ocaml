@@ -1,0 +1,21 @@
+(env
+ (dev
+  (flags
+   (:standard -w -26-27-32-33))))
+
+(rule
+ (mode promote)
+ (alias runtest)
+ (deps
+  (glob_files **/*.expected))
+ (action
+  (progn
+   (with-stdout-to
+    COMPLETED.md
+    (run ./completed_days.exe))
+   (bash "cat COMPLETED.md"))))
+
+(executable
+ (name completed_days)
+ (public_name completed_days)
+ (libraries aoc containers))
