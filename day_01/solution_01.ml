@@ -50,34 +50,31 @@ zoneight234
 
     let rec solve_aux result line =
       match line with
-      | 'o' :: 'n' :: 'e' :: tail -> solve_aux (result @ [ '1' ]) (List.tl line)
-      | 't' :: 'w' :: 'o' :: tail -> solve_aux (result @ [ '2' ]) (List.tl line)
-      | 't' :: 'h' :: 'r' :: 'e' :: 'e' :: tail ->
+      | 'o' :: 'n' :: 'e' :: _ -> solve_aux (result @ [ '1' ]) (List.tl line)
+      | 't' :: 'w' :: 'o' :: _ -> solve_aux (result @ [ '2' ]) (List.tl line)
+      | 't' :: 'h' :: 'r' :: 'e' :: 'e' :: _ ->
           solve_aux (result @ [ '3' ]) (List.tl line)
-      | 'f' :: 'o' :: 'u' :: 'r' :: tail ->
+      | 'f' :: 'o' :: 'u' :: 'r' :: _ ->
           solve_aux (result @ [ '4' ]) (List.tl line)
-      | 'f' :: 'i' :: 'v' :: 'e' :: tail ->
+      | 'f' :: 'i' :: 'v' :: 'e' :: _ ->
           solve_aux (result @ [ '5' ]) (List.tl line)
-      | 's' :: 'i' :: 'x' :: tail -> solve_aux (result @ [ '6' ]) (List.tl line)
-      | 's' :: 'e' :: 'v' :: 'e' :: 'n' :: tail ->
+      | 's' :: 'i' :: 'x' :: _ -> solve_aux (result @ [ '6' ]) (List.tl line)
+      | 's' :: 'e' :: 'v' :: 'e' :: 'n' :: _ ->
           solve_aux (result @ [ '7' ]) (List.tl line)
-      | 'e' :: 'i' :: 'g' :: 'h' :: 't' :: tail ->
+      | 'e' :: 'i' :: 'g' :: 'h' :: 't' :: _ ->
           solve_aux (result @ [ '8' ]) (List.tl line)
-      | 'n' :: 'i' :: 'n' :: 'e' :: tail ->
+      | 'n' :: 'i' :: 'n' :: 'e' :: _ ->
           solve_aux (result @ [ '9' ]) (List.tl line)
       | ('1' .. '9' as c) :: tail -> solve_aux (result @ [ c ]) tail
       | c :: tail -> solve_aux result tail
-      | [] ->
-          (* List.iter ~f:(fun i -> Printf.printf "%c" i) result; *)
-          (* print_endline " xD"; *)
-          result
+      | [] -> result
     in
 
     chars
     |> List.map ~f:(solve_aux [])
     |> List.map ~f:sum_first_last |> Util.sum
 
-  (* let%test "sample data" = Test.(run int (solve sample) ~expect:281) *)
+  let%test "sample data" = Test.(run int (solve sample) ~expect:281)
 end
 
 let run_1 () =
