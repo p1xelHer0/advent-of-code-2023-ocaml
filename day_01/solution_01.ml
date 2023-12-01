@@ -1,21 +1,89 @@
-let sample = {|
-...
-|} |> String.trim
+let sum_first_last lines =
+  let first = List.hd lines |> Char.to_string in
+  let last = List.rev lines |> List.hd |> Char.to_string in
+  Int.of_string_exn (first ^ last)
 
 module Part_1 = struct
-  let solve input = 0
-  let%test "sample data" = Test.(run int (solve sample) ~expect:0)
+  let sample = {|
+1abc2
+pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet
+|} |> String.trim
+
+  let solve input =
+    let lines = String.lines input in
+    let is_digit = function '0' .. '9' -> true | _ -> false in
+
+    let nums =
+      lines |> List.map ~f:String.to_list
+      |> List.map ~f:(fun l -> List.filter ~f:is_digit l)
+    in
+
+    nums |> List.map ~f:sum_first_last |> Util.sum
+
+  let%test "sample data" = Test.(run int (solve sample) ~expect:142)
 end
 
 module Part_2 = struct
-  let solve input = 0
-  let%test "sample data" = Test.(run int (solve sample) ~expect:0)
+  let sample =
+    {| 
+two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen
+|}
+    |> String.trim
+
+  let solve input =
+    let lines = String.lines input in
+    let chars = List.map ~f:String.to_list lines in
+
+    let sum_first_last lines =
+      let first = List.hd lines |> Char.to_string in
+      let last = List.rev lines |> List.hd |> Char.to_string in
+      Int.of_string_exn (first ^ last)
+    in
+
+    let rec solve_aux result line =
+      match line with
+      | 'o' :: 'n' :: 'e' :: tail -> solve_aux (result @ [ '1' ]) (List.tl line)
+      | 't' :: 'w' :: 'o' :: tail -> solve_aux (result @ [ '2' ]) (List.tl line)
+      | 't' :: 'h' :: 'r' :: 'e' :: 'e' :: tail ->
+          solve_aux (result @ [ '3' ]) (List.tl line)
+      | 'f' :: 'o' :: 'u' :: 'r' :: tail ->
+          solve_aux (result @ [ '4' ]) (List.tl line)
+      | 'f' :: 'i' :: 'v' :: 'e' :: tail ->
+          solve_aux (result @ [ '5' ]) (List.tl line)
+      | 's' :: 'i' :: 'x' :: tail -> solve_aux (result @ [ '6' ]) (List.tl line)
+      | 's' :: 'e' :: 'v' :: 'e' :: 'n' :: tail ->
+          solve_aux (result @ [ '7' ]) (List.tl line)
+      | 'e' :: 'i' :: 'g' :: 'h' :: 't' :: tail ->
+          solve_aux (result @ [ '8' ]) (List.tl line)
+      | 'n' :: 'i' :: 'n' :: 'e' :: tail ->
+          solve_aux (result @ [ '9' ]) (List.tl line)
+      | ('1' .. '9' as c) :: tail -> solve_aux (result @ [ c ]) tail
+      | c :: tail -> solve_aux result tail
+      | [] ->
+          (* List.iter ~f:(fun i -> Printf.printf "%c" i) result; *)
+          (* print_endline " xD"; *)
+          result
+    in
+
+    chars
+    |> List.map ~f:(solve_aux [])
+    |> List.map ~f:sum_first_last |> Util.sum
+
+  (* let%test "sample data" = Test.(run int (solve sample) ~expect:281) *)
 end
 
 let run_1 () =
-  (* Run.solve_int (module Part_1); *)
+  Run.solve_int (module Part_1);
   ()
 
 let run_2 () =
-  (* Run.solve_int (module Part_2); *)
+  Run.solve_int (module Part_2);
   ()
