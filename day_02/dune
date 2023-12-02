@@ -1,7 +1,7 @@
 (library
  (name solution_02)
  (modules solution_02)
- (libraries aoc angstrom containers oseq)
+ (libraries aoc angstrom fmt containers oseq)
  (inline_tests)
  (preprocess
   (pps
@@ -11,7 +11,7 @@
    ppx_deriving.make
    ppx_inline_alcotest))
  (flags
-  (:standard -open Aoc -open ContainersLabels)))
+  (:standard -open Aoc -open Fmt -open ContainersLabels)))
 
 (executable
  (name run_1)

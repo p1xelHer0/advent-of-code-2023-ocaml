@@ -15,3 +15,4 @@ let option = Alcotest.option
 let result = Alcotest.result
 let pair = Alcotest.pair
 let triple = Alcotest.triple
+let testable = Alcotest.testable
