@@ -17,7 +17,7 @@ treb7uchet
 
     let nums =
       lines |> List.map ~f:String.to_list
-      |> List.map ~f:(fun l -> List.filter ~f:is_digit l)
+      |> List.map ~f:(List.filter ~f:is_digit)
     in
 
     nums |> List.map ~f:sum_first_last |> Util.sum
@@ -39,14 +39,7 @@ zoneight234
     |> String.trim
 
   let solve input =
-    let lines = String.lines input in
-    let chars = List.map ~f:String.to_list lines in
-
-    let sum_first_last lines =
-      let first = List.hd lines |> Char.to_string in
-      let last = List.rev lines |> List.hd |> Char.to_string in
-      Int.of_string_exn (first ^ last)
-    in
+    let chars = input |> String.lines |> List.map ~f:String.to_list in
 
     let rec solve_aux result line =
       match line with
