@@ -14,8 +14,16 @@ module P = struct
 
   let is_digit = function '0' .. '9' -> true | _ -> false
   let int = take_while1 is_digit >>| Int.of_string_exn
-  let rounds = sep_by (string "\n") (string "Card " *> int <* string ": ")
-  let parse input = parse_string ~consume:All _ input |> Result.get_or_failwith
+
+  let is_whitespace = function
+    | '\x20' | '\x0a' | '\x0d' | '\x09' -> true
+    | _ -> false
+
+  let whitespace = take_while is_whitespace
+  let score = whitespace *> int <* whitespace
+  let x = sep_by whitespace
+  let round = sep_by (string " | ")
+  let card = string "Card " *> int <* string ": "
 end
 
 module Part_1 = struct
